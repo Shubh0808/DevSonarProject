@@ -40,17 +40,12 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set JAVA_HOME
-        run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> $GITHUB_ENV
-
       - name: SonarQube Scan
-        run: mvn sonar:sonar \
-          -Dsonar.projectKey=DevSonarBackend \
-          -Dsonar.projectName="DevSonar Backend" \
-          -Dsonar.sources=src/main/java \
-          -Dsonar.java.binaries=target/classes \
+        run: mvn sonar:sonar -X \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+          -Dsonar.login=${{ secrets.SONAR_LOGIN }} \
+          -Dsonar.projectKey=DevSonarBackend \
+          -Dsonar.java.binaries=target/classes
 
   trivy-scan:
     runs-on: ubuntu-latest
@@ -68,8 +63,7 @@ jobs:
 
       - name: Scan Project Files
         run: |
-          trivy fs --exit-code 0 --severity HIGH,CRITICAL --ignore-unfixed .
-          trivy fs --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed . || echo "High/Critical vulnerabilities found"
+          trivy fs --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed --skip-dirs .git,target .
 
   snyk-scan:
     runs-on: ubuntu-latest
@@ -85,4 +79,4 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Test Dependencies
-        run: snyk test --all-projects --severity-threshold=high || echo "High severity issues found"
+        run: snyk test --all-projects --severity-threshold=high
