@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Coverage Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        .coverage { font-size: 1.2em; margin-top: 20px; }
+        .bar { height: 30px; background-color: #4CAF50; text-align: center; color: white; }
+        .container { width: 50%; background-color: #ddd; }
+    </style>
+</head>
+<body>
+    <h1>JaCoCo Test Coverage</h1>
+    <div class="coverage">
+        <p>Total Coverage: <span id="coveragePercent">Loading...</span>%</p>
+        <div class="container">
+            <div class="bar" id="coverageBar"></div>
+        </div>
+    </div>
+
+    <script>
+        // Replace with actual coverage % from JaCoCo report (manually or dynamically via API)
+        let coveragePercent = 0;
+
+        // Option 1: Manual value (update after running tests)
+        coveragePercent = 85; // Example value
+
+        // Update UI
+        document.getElementById("coveragePercent").innerText = coveragePercent;
+        document.getElementById("coverageBar").style.width = coveragePercent + "%";
+    </script>
+</body>
+</html>

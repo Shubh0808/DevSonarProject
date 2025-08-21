@@ -1,0 +1,6 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+DevSonarProject Backend,com.company.devsonar,DevSonarApplication,8,0,0,0,3,0,2,0,2,0
+DevSonarProject Backend,com.company.devsonar,App,7,0,0,0,3,0,2,0,2,0
+DevSonarProject Backend,com.company.devsonar.controller,EmployeeController,6,44,2,2,0,12,2,6,0,6
+DevSonarProject Backend,com.company.devsonar.model,Employee,28,18,0,0,8,7,8,2,8,2
+DevSonarProject Backend,com.company.devsonar.service,EmployeeService,69,0,2,0,15,0,9,0,8,0
