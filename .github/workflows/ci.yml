@@ -33,24 +33,12 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco
 
-  sonar-scan:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: Set JAVA_HOME
-        run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> $GITHUB_ENV
-
       - name: SonarQube Scan
-        run: mvn sonar:sonar \
-          -Dsonar.projectKey=DevSonarBackend \
-          -Dsonar.projectName="DevSonar Backend" \
-          -Dsonar.sources=src/main/java \
-          -Dsonar.java.binaries=target/classes \
+        run: mvn sonar:sonar -X \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+          -Dsonar.login=${{ secrets.SONAR_LOGIN }} \
+          -Dsonar.projectKey=DevSonarBackend \
+          -Dsonar.java.binaries=target/classes
 
   trivy-scan:
     runs-on: ubuntu-latest
