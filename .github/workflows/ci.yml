@@ -43,14 +43,14 @@ jobs:
       - name: Set JAVA_HOME
         run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> $GITHUB_ENV
 
-      - name: SonarQube Scan
+      - name: SonarCloud Scan
         run: mvn sonar:sonar \
           -Dsonar.projectKey=DevSonarBackend \
+          -Dsonar.organization=shubh0808 \
           -Dsonar.projectName="DevSonar Backend" \
           -Dsonar.sources=src/main/java \
           -Dsonar.java.binaries=target/classes \
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   trivy-scan:
     runs-on: ubuntu-latest
