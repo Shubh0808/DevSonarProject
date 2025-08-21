@@ -1,0 +1,6 @@
+projectKey=DevSonarBackend
+serverUrl=http://localhost:9050
+serverVersion=25.7.0.110598
+dashboardUrl=http://localhost:9050/dashboard?id=DevSonarBackend
+ceTaskId=0636cefc-0da6-491a-94aa-1c14918d4e6c
+ceTaskUrl=http://localhost:9050/api/ce/task?id=0636cefc-0da6-491a-94aa-1c14918d4e6c
