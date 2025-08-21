@@ -44,8 +44,7 @@ jobs:
         run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> $GITHUB_ENV
 
       - name: SonarCloud Scan
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn verify sonar:sonar -B -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   trivy-scan:
     runs-on: ubuntu-latest
