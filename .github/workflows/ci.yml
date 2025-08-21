@@ -63,12 +63,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y wget
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.45.2_Linux-64bit.deb
-          sudo dpkg -i trivy_0.45.2_Linux-64bit.deb
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.65.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.65.0_Linux-64bit.deb
 
       - name: Scan Project Files
         run: |
-          trivy fs --exit-code 0 --severity HIGH,CRITICAL --ignore-unfixed --skip-dirs .git,target,node_modules .
+          trivy fs \
+          --exit-code 1 \
+          --severity HIGH,CRITICAL \
+          --ignore-unfixed \
+          --skip-dirs .git,target,node_modules .
 
   snyk-scan:
     runs-on: ubuntu-latest
