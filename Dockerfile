@@ -1,27 +1,30 @@
-docker-push:
-  runs-on: ubuntu-latest
-  needs: trivy-scan
+# ===== Build Stage =====
+# Use Maven + JDK 17 image to build the project
+FROM maven:3.9.3-eclipse-temurin-17 AS build
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+# Set working directory
+WORKDIR /app
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+# Copy Maven pom.xml first (to leverage caching)
+COPY pom.xml .
 
-    - name: Log in to GHCR
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.CR_PAT }}
+# Copy the source code
+COPY src ./src
 
-    - name: Build Docker Image
-      run: |
-        docker build \
-          --file Dockerfile \
-          --tag ghcr.io/${{ github.repository_owner }}/devsonarproject:latest \
-          .
+# Build the Spring Boot app, skip tests to speed up
+RUN mvn clean package -DskipTests
 
-    - name: Push Docker Image
-      run: docker push ghcr.io/${{ github.repository_owner }}/devsonarproject:latest
+# ===== Run Stage =====
+# Use lightweight JRE image to run the app
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose port 9090 (adjust if needed)
+EXPOSE 9090
+
+# Run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=9090"]
