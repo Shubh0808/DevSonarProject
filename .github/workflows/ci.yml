@@ -65,7 +65,13 @@ jobs:
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=DevSonarBackend -Dsonar.organization=shubh0808 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
+             -Dsonar.projectKey=DevSonarBackend \
+             -Dsonar.organization=shubh0808 \
+             -Dsonar.host.url=https://sonarcloud.io \
+             -Dsonar.login=$SONAR_TOKEN \
+             -Dsonar.branch.name=main
+
 
   trivy-scan:
     runs-on: ubuntu-latest
